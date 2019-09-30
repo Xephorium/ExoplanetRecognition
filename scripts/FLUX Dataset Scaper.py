@@ -22,7 +22,6 @@
 #       https://www.kaggle.com/cacruzen/ai-project-proposal
 
 import numpy as np
-from scipy import stats
 import matplotlib.pyplot as plt
 
 # Declare Constants
@@ -50,17 +49,33 @@ for current_system in range(1, SAMPLE_ROWS + 1):
         dataset[current_system,0] - 1,                          # Planetary (0,1)
         round(np.average(star_system_flux_values), 2),          # Average FLUX
         round(np.median(star_system_flux_values), 2),           # Median FLUX
-        round(stats.mode(star_system_flux_values)[0][0], 2),    # Mode FLUX
         round(np.amax(star_system_flux_values), 2),             # Max FLUX
-        round(np.amin(star_system_flux_values), 2),             # Min FLUX
+        round(np.amin(star_system_flux_values), 2),             # Min FLUX    DUP??
         round(np.std(star_system_flux_values), 2)               # Std. Dev. FLUX
     ]
     
+    # Normalize Metadata
+    normalized_data = [star_system_metadata[0]]
+    min = star_system_metadata[1]
+    max = star_system_metadata[1]
+    for record in range(1, len(star_system_metadata)):
+        if star_system_metadata[record] < min:
+            min = star_system_metadata[record]
+        if star_system_metadata[record] > max:
+            max = star_system_metadata[record]
+    for record in range(1, len(star_system_metadata)):
+        if max - min != 0:
+            normalized_data.append(round((star_system_metadata[record] - min)/(max - min), 4))
+        else:
+            normalized_data.append(0.0)
+    
     # Save Metadata
-    system_metadata.append(star_system_metadata)
+    system_metadata.append(normalized_data)
 
 # Print Records
 for system in range(0, len(system_metadata)):
-    for value in range(0, 7):
-        print(str(system_metadata[system][value]), end=',')
+    for value in range(0, 6):
+        print(str(system_metadata[system][value]), end='')
+        if value != 5:
+            print(',', end='')
     print('')
