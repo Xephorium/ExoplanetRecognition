@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 
 # Declare Constants
 DECIMAL_ACCURACY = 7
-SAMPLE_ROWS = 570 # Max = Total (Total Number of Rows: 5087)
+SAMPLE_ROWS = 5087 # Max = Total (Total Number of Rows: 5087)
 SAMPLE_COLUMNS = 3197 # Max = Total - 1 (Total Number of Columns: 3198)
 
 # Declare Variables
@@ -33,7 +33,7 @@ system_metadata = []
 
 # Retrieve Dataset
 dataset = np.genfromtxt(
-    '/kaggle/input/kepler-labelled-time-series-data/exoTest.csv',
+    '/kaggle/input/kepler-labelled-time-series-data/exoTrain.csv',
     delimiter=',',
     usecols=(range(SAMPLE_COLUMNS + 1))
 )
@@ -65,12 +65,43 @@ for current_system in range(1, SAMPLE_ROWS + 1):
             max = star_system_metadata[record]
     for record in range(1, len(star_system_metadata) - 1):
         if max - min != 0:
-            normalized_data.append(round((star_system_metadata[record] - min)/(max - min), DECIMAL_ACCURACY))
+            if star_system_metadata[record] != max and star_system_metadata[record] != min: 
+                normalized_data.append(round((star_system_metadata[record] - min)/(max - min), DECIMAL_ACCURACY))
+            else:
+                normalized_data.append(star_system_metadata[record])
         else:
             normalized_data.append(0.0)
     
     # Save Metadata
     system_metadata.append(normalized_data)
+    
+# Normalize Max Relative to Dataset Values
+min = dataset[1][3]
+max = dataset[1][3]
+for current_system in range(1, SAMPLE_ROWS + 1):
+    if dataset[current_system][3] < min:
+        min = dataset[current_system][3]
+    if dataset[current_system][3] > max:
+        max = dataset[current_system][3]
+for current_system in range(1, SAMPLE_ROWS + 1):
+    if max - min != 0:
+        system_metadata[current_system - 1][3] = round((dataset[current_system][3] - min)/(max - min), DECIMAL_ACCURACY)
+    else:
+        system_metadata[current_system - 1][3] = 0.0
+        
+# Normalize Max Relative to Dataset Values
+min = dataset[1][4]
+max = dataset[1][4]
+for current_system in range(1, SAMPLE_ROWS + 1):
+    if dataset[current_system][4] < min:
+        min = dataset[current_system][4]
+    if dataset[current_system][4] > max:
+        max = dataset[current_system][4]
+for current_system in range(1, SAMPLE_ROWS + 1):
+    if max - min != 0:
+        system_metadata[current_system - 1][4] = round((dataset[current_system][4] - min)/(max - min), DECIMAL_ACCURACY)
+    else:
+        system_metadata[current_system - 1][4] = 0.0
 
     
 # Normalize Standard Deviation Relative to Dataset Values
