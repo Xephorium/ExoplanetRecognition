@@ -75,10 +75,10 @@ test_input = test[:, 1:5]
 test_output = test[:, 0:1]
 
 # Add Neural Network Layers
-model.add(Dense(5, input_dim=len(train_input[0]), activation='linear'))
-model.add(Dense(4, input_dim=len(train_input[0]), activation='linear'))
-model.add(Dense(2, input_dim=len(train_input[0]), activation='linear'))
-model.add(Dense(1, input_dim=len(train_input[0]), activation='linear'))
+model.add(Dense(5, input_dim=len(train_input[0]), activation='sigmoid'))
+model.add(Dense(4, input_dim=len(train_input[0]), activation='sigmoid'))
+model.add(Dense(2, input_dim=len(train_input[0]), activation='sigmoid'))
+model.add(Dense(1, input_dim=len(train_input[0]), activation='sigmoid'))
 
 # Print Summary
 print(model.summary())
