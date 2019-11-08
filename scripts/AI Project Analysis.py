@@ -36,7 +36,7 @@ np.random.shuffle(train)
 np.random.shuffle(validation)
 np.random.shuffle(test)
 
-# Plot Inputs Against Outputs (#1 - DONE)
+# Plot Inputs Against Outputs
 # plt.figure(figsize=(5,5))
 # plt.scatter(train[:, 1], train[:, 0], color='b', alpha=0.2)
 # plt.xlabel('Average FLUX')
@@ -67,16 +67,16 @@ np.random.shuffle(test)
 model = Sequential()
 
 # Split Datasets
-train_input = train[:, 1:5]
+train_input = train[:, 2:4]
 train_output = train[:, 0:1]
-validation_input = validation[:, 1:5]
+validation_input = validation[:, 2:4]
 validation_output = validation[:, 0:1]
-test_input = test[:, 1:5]
+test_input = test[:, 2:4]
 test_output = test[:, 0:1]
 
 # Add Neural Network Layers
-model.add(Dense(5, input_dim=len(train_input[0]), activation='sigmoid'))
-model.add(Dense(4, input_dim=len(train_input[0]), activation='sigmoid'))
+#model.add(Dense(5, input_dim=len(train_input[0]), activation='sigmoid'))
+#model.add(Dense(4, input_dim=len(train_input[0]), activation='sigmoid'))
 model.add(Dense(2, input_dim=len(train_input[0]), activation='sigmoid'))
 model.add(Dense(1, input_dim=len(train_input[0]), activation='sigmoid'))
 
@@ -115,15 +115,6 @@ plt.ylim(0,max_error)
 plt.xlabel('Epoch')
 plt.legend(['Train', 'Validation'], loc='upper right')
 plt.show()
-
-# Read Weights
-# w0 = model.layers[0].get_weights()[0][0]
-# w1 = model.layers[0].get_weights()[0][1]
-# w2 = model.layers[0].get_weights()[0][2]
-# w3 = model.layers[0].get_weights()[0][3]
-# w4 = model.layers[0].get_weights()[0][4]
-# w5 = model.layers[0].get_weights()[0][5]
-# b1 = model.layers[0].get_weights()[1]
 
 # Evaluate Model w/ Test Dataset
 test_predictions = model.predict(test_input)
