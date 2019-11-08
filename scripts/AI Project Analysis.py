@@ -84,7 +84,7 @@ model.add(Dense(1, input_dim=len(train_input[0]), activation='linear'))
 print(model.summary())
 
 # Compile Model w/ Loss="Mean Absolute Error" and Optmizer="Stochastic Gradient Descent"
-loss_method = 'mae' # "Mean Absolute Error"
+loss_method = 'mse' # "Mean Squared Error"
 model.compile(loss=loss_method, optimizer='sgd', metrics=[loss_method, 'accuracy'])
 
 # Perform Fit
@@ -110,7 +110,7 @@ for error in history.history[loss_method]:
 plt.figure(figsize=(5,5))
 plt.plot(history.history[loss_method])
 plt.plot(history.history['val_' + loss_method])
-plt.ylabel('Mean Absolute Error')
+plt.ylabel('Mean Squared Error')
 plt.ylim(0,max_error)
 plt.xlabel('Epoch')
 plt.legend(['Train', 'Validation'], loc='upper right')
